@@ -1,0 +1,422 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D6C01C0E1A65DA4D00D61916 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C01C0D1A65DA4D00D61916 /* AppDelegate.swift */; };
+		D6C01C101A65DA4D00D61916 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C01C0F1A65DA4D00D61916 /* ViewController.swift */; };
+		D6C01C131A65DA4D00D61916 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6C01C111A65DA4D00D61916 /* Main.storyboard */; };
+		D6C01C151A65DA4D00D61916 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D6C01C141A65DA4D00D61916 /* Images.xcassets */; };
+		D6C01C181A65DA4D00D61916 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D6C01C161A65DA4D00D61916 /* LaunchScreen.xib */; };
+		D6C01C241A65DA4D00D61916 /* BTCmdPeriTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C01C231A65DA4D00D61916 /* BTCmdPeriTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D6C01C1E1A65DA4D00D61916 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D6C01C001A65DA4D00D61916 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D6C01C071A65DA4D00D61916;
+			remoteInfo = BTCmdPeri;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D6C01C081A65DA4D00D61916 /* BTCmdPeri.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BTCmdPeri.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D6C01C0C1A65DA4D00D61916 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D6C01C0D1A65DA4D00D61916 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D6C01C0F1A65DA4D00D61916 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D6C01C121A65DA4D00D61916 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D6C01C141A65DA4D00D61916 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		D6C01C171A65DA4D00D61916 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		D6C01C1D1A65DA4D00D61916 /* BTCmdPeriTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BTCmdPeriTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D6C01C221A65DA4D00D61916 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D6C01C231A65DA4D00D61916 /* BTCmdPeriTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BTCmdPeriTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D6C01C051A65DA4D00D61916 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D6C01C1A1A65DA4D00D61916 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D6C01BFF1A65DA4D00D61916 = {
+			isa = PBXGroup;
+			children = (
+				D6C01C0A1A65DA4D00D61916 /* BTCmdPeri */,
+				D6C01C201A65DA4D00D61916 /* BTCmdPeriTests */,
+				D6C01C091A65DA4D00D61916 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D6C01C091A65DA4D00D61916 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D6C01C081A65DA4D00D61916 /* BTCmdPeri.app */,
+				D6C01C1D1A65DA4D00D61916 /* BTCmdPeriTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D6C01C0A1A65DA4D00D61916 /* BTCmdPeri */ = {
+			isa = PBXGroup;
+			children = (
+				D6C01C0D1A65DA4D00D61916 /* AppDelegate.swift */,
+				D6C01C0F1A65DA4D00D61916 /* ViewController.swift */,
+				D6C01C111A65DA4D00D61916 /* Main.storyboard */,
+				D6C01C141A65DA4D00D61916 /* Images.xcassets */,
+				D6C01C161A65DA4D00D61916 /* LaunchScreen.xib */,
+				D6C01C0B1A65DA4D00D61916 /* Supporting Files */,
+			);
+			path = BTCmdPeri;
+			sourceTree = "<group>";
+		};
+		D6C01C0B1A65DA4D00D61916 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D6C01C0C1A65DA4D00D61916 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D6C01C201A65DA4D00D61916 /* BTCmdPeriTests */ = {
+			isa = PBXGroup;
+			children = (
+				D6C01C231A65DA4D00D61916 /* BTCmdPeriTests.swift */,
+				D6C01C211A65DA4D00D61916 /* Supporting Files */,
+			);
+			path = BTCmdPeriTests;
+			sourceTree = "<group>";
+		};
+		D6C01C211A65DA4D00D61916 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D6C01C221A65DA4D00D61916 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D6C01C071A65DA4D00D61916 /* BTCmdPeri */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D6C01C271A65DA4D00D61916 /* Build configuration list for PBXNativeTarget "BTCmdPeri" */;
+			buildPhases = (
+				D6C01C041A65DA4D00D61916 /* Sources */,
+				D6C01C051A65DA4D00D61916 /* Frameworks */,
+				D6C01C061A65DA4D00D61916 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BTCmdPeri;
+			productName = BTCmdPeri;
+			productReference = D6C01C081A65DA4D00D61916 /* BTCmdPeri.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D6C01C1C1A65DA4D00D61916 /* BTCmdPeriTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D6C01C2A1A65DA4D00D61916 /* Build configuration list for PBXNativeTarget "BTCmdPeriTests" */;
+			buildPhases = (
+				D6C01C191A65DA4D00D61916 /* Sources */,
+				D6C01C1A1A65DA4D00D61916 /* Frameworks */,
+				D6C01C1B1A65DA4D00D61916 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D6C01C1F1A65DA4D00D61916 /* PBXTargetDependency */,
+			);
+			name = BTCmdPeriTests;
+			productName = BTCmdPeriTests;
+			productReference = D6C01C1D1A65DA4D00D61916 /* BTCmdPeriTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D6C01C001A65DA4D00D61916 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0620;
+				ORGANIZATIONNAME = Imprivata;
+				TargetAttributes = {
+					D6C01C071A65DA4D00D61916 = {
+						CreatedOnToolsVersion = 6.2;
+					};
+					D6C01C1C1A65DA4D00D61916 = {
+						CreatedOnToolsVersion = 6.2;
+						TestTargetID = D6C01C071A65DA4D00D61916;
+					};
+				};
+			};
+			buildConfigurationList = D6C01C031A65DA4D00D61916 /* Build configuration list for PBXProject "BTCmdPeri" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D6C01BFF1A65DA4D00D61916;
+			productRefGroup = D6C01C091A65DA4D00D61916 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D6C01C071A65DA4D00D61916 /* BTCmdPeri */,
+				D6C01C1C1A65DA4D00D61916 /* BTCmdPeriTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D6C01C061A65DA4D00D61916 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D6C01C131A65DA4D00D61916 /* Main.storyboard in Resources */,
+				D6C01C181A65DA4D00D61916 /* LaunchScreen.xib in Resources */,
+				D6C01C151A65DA4D00D61916 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D6C01C1B1A65DA4D00D61916 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D6C01C041A65DA4D00D61916 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D6C01C101A65DA4D00D61916 /* ViewController.swift in Sources */,
+				D6C01C0E1A65DA4D00D61916 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D6C01C191A65DA4D00D61916 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D6C01C241A65DA4D00D61916 /* BTCmdPeriTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D6C01C1F1A65DA4D00D61916 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D6C01C071A65DA4D00D61916 /* BTCmdPeri */;
+			targetProxy = D6C01C1E1A65DA4D00D61916 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		D6C01C111A65DA4D00D61916 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D6C01C121A65DA4D00D61916 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		D6C01C161A65DA4D00D61916 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D6C01C171A65DA4D00D61916 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D6C01C251A65DA4D00D61916 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D6C01C261A65DA4D00D61916 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D6C01C281A65DA4D00D61916 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = BTCmdPeri/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D6C01C291A65DA4D00D61916 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = BTCmdPeri/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		D6C01C2B1A65DA4D00D61916 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = BTCmdPeriTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BTCmdPeri.app/BTCmdPeri";
+			};
+			name = Debug;
+		};
+		D6C01C2C1A65DA4D00D61916 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = BTCmdPeriTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BTCmdPeri.app/BTCmdPeri";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D6C01C031A65DA4D00D61916 /* Build configuration list for PBXProject "BTCmdPeri" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D6C01C251A65DA4D00D61916 /* Debug */,
+				D6C01C261A65DA4D00D61916 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D6C01C271A65DA4D00D61916 /* Build configuration list for PBXNativeTarget "BTCmdPeri" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D6C01C281A65DA4D00D61916 /* Debug */,
+				D6C01C291A65DA4D00D61916 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		D6C01C2A1A65DA4D00D61916 /* Build configuration list for PBXNativeTarget "BTCmdPeriTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D6C01C2B1A65DA4D00D61916 /* Debug */,
+				D6C01C2C1A65DA4D00D61916 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D6C01C001A65DA4D00D61916 /* Project object */;
+}
