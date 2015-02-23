@@ -17,8 +17,9 @@ class BluetoothManager: NSObject {
     
     private let peripheralManager: CBPeripheralManager!
     private var service: CBMutableService!
-    var responseCharacteristic: CBMutableCharacteristic!
     private var isPoweredOn = false
+    
+    private var pendingResponses = [String]()
     
     // See:
     // http://stackoverflow.com/questions/24218581/need-self-to-set-all-constants-of-a-swift-class-in-init
@@ -38,9 +39,9 @@ class BluetoothManager: NSObject {
             properties: CBCharacteristicProperties.Write,
             value: nil,
             permissions: CBAttributePermissions.Writeable)
-        responseCharacteristic = CBMutableCharacteristic(
+        let responseCharacteristic = CBMutableCharacteristic(
             type: responseCharacteristicUUID,
-            properties: CBCharacteristicProperties.Notify,
+            properties: CBCharacteristicProperties.Read,
             value: nil,
             permissions: CBAttributePermissions.Readable)
         service.characteristics = [commandCharacteristic, responseCharacteristic]
@@ -94,11 +95,12 @@ extension BluetoothManager: CBPeripheralManagerDelegate {
         var message = "peripheralManager didAddService \(nameFromUUID(service.UUID)) \(service.UUID) "
         if error == nil {
             message += "ok"
+            println(message)
+            startAdvertising()
         } else {
             message = "error " + error.localizedDescription
+            println(message)
         }
-        println(message)
-        startAdvertising()
     }
     
     func peripheralManagerDidStartAdvertising(peripheral: CBPeripheralManager!, error: NSError!) {
@@ -109,11 +111,6 @@ extension BluetoothManager: CBPeripheralManagerDelegate {
             message = "error " + error.localizedDescription
         }
         println(message)
-    }
-    
-    func peripheralManager(peripheral: CBPeripheralManager!, central: CBCentral!, didSubscribeToCharacteristic characteristic: CBCharacteristic!) {
-        let name = nameFromUUID(characteristic.UUID)
-        println("peripheralManager didSubscribeToCharacteristic \(name)")
     }
     
     func peripheralManager(peripheral: CBPeripheralManager!, didReceiveWriteRequests requests: [AnyObject]!) {
@@ -128,18 +125,25 @@ extension BluetoothManager: CBPeripheralManagerDelegate {
         dateFormatter.dateStyle = NSDateFormatterStyle.NoStyle
         dateFormatter.timeStyle = NSDateFormatterStyle.MediumStyle
         let response = "\(command) (\(dateFormatter.stringFromDate(NSDate())))"
-        println("response: " + response)
+        println("pending response: " + response)
+        pendingResponses.append(response)
         peripheralManager.respondToRequest(request, withResult: CBATTError.Success)
-
-        // wait before sending this
-        let delayInSeconds = 0.1
-        let startTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delayInSeconds * Double(NSEC_PER_SEC)))
-        dispatch_after(startTime, dispatch_get_main_queue()) { () -> () in
-            let responseData = response.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
-            let didSendValue = self.peripheralManager.updateValue(responseData, forCharacteristic: self.responseCharacteristic, onSubscribedCentrals: nil)
-            println("send response " + (didSendValue ? "ok" : "failed"))
+    }
+    
+    func peripheralManager(peripheral: CBPeripheralManager!, didReceiveReadRequest request: CBATTRequest!) {
+        let serviceUUID = request.characteristic.service.UUID
+        let serviceName = nameFromUUID(serviceUUID)
+        let characteristicUUID = request.characteristic.UUID
+        let characteristicName = nameFromUUID(characteristicUUID)
+        println("peripheralManager didReceiveReadRequest \(serviceName) \(characteristicName) \(serviceUUID) \(characteristicUUID)")
+        if pendingResponses.count > 0 {
+            let response = pendingResponses.removeAtIndex(0)
+            request.value = response.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+            peripheralManager.respondToRequest(request, withResult: CBATTError.Success)
+        } else {
+            println("no pending responses")
+            peripheralManager.respondToRequest(request, withResult: CBATTError.RequestNotSupported)
         }
-        
     }
     
 }
