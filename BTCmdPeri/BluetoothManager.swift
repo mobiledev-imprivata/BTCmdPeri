@@ -125,7 +125,7 @@ extension BluetoothManager: CBPeripheralManagerDelegate {
         dateFormatter.dateStyle = NSDateFormatterStyle.NoStyle
         dateFormatter.timeStyle = NSDateFormatterStyle.MediumStyle
         let response = "\(command) (\(dateFormatter.stringFromDate(NSDate())))"
-        println("pending response: " + response)
+        println("pending response \(countElements(response)): " + response)
         pendingResponses.append(response)
         peripheralManager.respondToRequest(request, withResult: CBATTError.Success)
     }
