@@ -30,7 +30,7 @@ class BluetoothManager: NSObject {
     }
     
     private func startService() {
-        println("startService")
+        log("startService")
         peripheralManager.stopAdvertising()
         peripheralManager.removeAllServices()
         let service = CBMutableService(type: provisioningServiceUUID, primary: true)
@@ -49,7 +49,7 @@ class BluetoothManager: NSObject {
     }
     
     private func startAdvertising() {
-        println("startAdvertising")
+        log("startAdvertising")
         peripheralManager.startAdvertising([CBAdvertisementDataServiceUUIDsKey: [provisioningServiceUUID]])
     }
     
@@ -84,7 +84,7 @@ extension BluetoothManager: CBPeripheralManagerDelegate {
         default:
             caseString = "WTF"
         }
-        println("peripheralManagerDidUpdateState \(caseString)")
+        log("peripheralManagerDidUpdateState \(caseString)")
         isPoweredOn = (peripheralManager.state == .PoweredOn)
         if isPoweredOn {
             startService()
@@ -95,11 +95,11 @@ extension BluetoothManager: CBPeripheralManagerDelegate {
         var message = "peripheralManager didAddService \(nameFromUUID(service.UUID)) \(service.UUID) "
         if error == nil {
             message += "ok"
-            println(message)
+            log(message)
             startAdvertising()
         } else {
             message = "error " + error.localizedDescription
-            println(message)
+            log(message)
         }
     }
     
@@ -110,22 +110,22 @@ extension BluetoothManager: CBPeripheralManagerDelegate {
         } else {
             message = "error " + error.localizedDescription
         }
-        println(message)
+        log(message)
     }
     
     func peripheralManager(peripheral: CBPeripheralManager!, didReceiveWriteRequests requests: [AnyObject]!) {
-        println("peripheralManager didReceiveWriteRequests \(requests.count)")
+        log("peripheralManager didReceiveWriteRequests \(requests.count)")
         if requests.count == 0 {
             return
         }
         let request = requests[0] as CBATTRequest
         let command = NSString(data: request.value, encoding: NSUTF8StringEncoding)!
-        println("command received: " + command)
+        log("command received: " + command)
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.NoStyle
         dateFormatter.timeStyle = NSDateFormatterStyle.MediumStyle
         let response = "\(command) (\(dateFormatter.stringFromDate(NSDate())))"
-        println("pending response \(countElements(response)): " + response)
+        log("pending response \(countElements(response)): " + response)
         pendingResponses.append(response)
         peripheralManager.respondToRequest(request, withResult: CBATTError.Success)
     }
@@ -135,13 +135,13 @@ extension BluetoothManager: CBPeripheralManagerDelegate {
         let serviceName = nameFromUUID(serviceUUID)
         let characteristicUUID = request.characteristic.UUID
         let characteristicName = nameFromUUID(characteristicUUID)
-        println("peripheralManager didReceiveReadRequest \(serviceName) \(characteristicName) \(serviceUUID) \(characteristicUUID)")
+        log("peripheralManager didReceiveReadRequest \(serviceName) \(characteristicName) \(serviceUUID) \(characteristicUUID)")
         if pendingResponses.count > 0 {
             let response = pendingResponses.removeAtIndex(0)
             request.value = response.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
             peripheralManager.respondToRequest(request, withResult: CBATTError.Success)
         } else {
-            println("no pending responses")
+            log("no pending responses")
             peripheralManager.respondToRequest(request, withResult: CBATTError.RequestNotSupported)
         }
     }
