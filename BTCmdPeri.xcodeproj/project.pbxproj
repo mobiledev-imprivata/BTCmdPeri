@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D61241151AD6D07500697180 /* ChunkUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D61241141AD6D07500697180 /* ChunkUtils.swift */; };
 		D63117FB1AD42D52007FE7D0 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = D63117FA1AD42D52007FE7D0 /* Logger.swift */; };
 		D675459B1A6713CB00CF7B8D /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D675459A1A6713CB00CF7B8D /* BluetoothManager.swift */; };
 		D6C01C0E1A65DA4D00D61916 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C01C0D1A65DA4D00D61916 /* AppDelegate.swift */; };
@@ -28,6 +29,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D61241141AD6D07500697180 /* ChunkUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChunkUtils.swift; sourceTree = "<group>"; };
 		D63117FA1AD42D52007FE7D0 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		D675459A1A6713CB00CF7B8D /* BluetoothManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
 		D6C01C081A65DA4D00D61916 /* BTCmdPeri.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BTCmdPeri.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -82,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				D63117FA1AD42D52007FE7D0 /* Logger.swift */,
+				D61241141AD6D07500697180 /* ChunkUtils.swift */,
 				D675459A1A6713CB00CF7B8D /* BluetoothManager.swift */,
 				D6C01C0D1A65DA4D00D61916 /* AppDelegate.swift */,
 				D6C01C0F1A65DA4D00D61916 /* ViewController.swift */,
@@ -225,6 +228,7 @@
 			files = (
 				D6C01C101A65DA4D00D61916 /* ViewController.swift in Sources */,
 				D675459B1A6713CB00CF7B8D /* BluetoothManager.swift in Sources */,
+				D61241151AD6D07500697180 /* ChunkUtils.swift in Sources */,
 				D6C01C0E1A65DA4D00D61916 /* AppDelegate.swift in Sources */,
 				D63117FB1AD42D52007FE7D0 /* Logger.swift in Sources */,
 			);

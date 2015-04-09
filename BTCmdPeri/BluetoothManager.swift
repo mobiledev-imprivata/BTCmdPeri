@@ -19,7 +19,15 @@ class BluetoothManager: NSObject {
     // private var service: CBMutableService!
     private var isPoweredOn = false
     
-    private var pendingResponses = [String]()
+    private let dechunker = Dechunker()
+    
+    private let chunkSize = 15
+    private var pendingResponseChunks = Array< Array<UInt8> >()
+    private var nChunks = 0
+    private var nChunksSent = 0
+    
+    private var startTime = NSDate()
+
     
     // See:
     // http://stackoverflow.com/questions/24218581/need-self-to-set-all-constants-of-a-swift-class-in-init
@@ -60,6 +68,20 @@ class BluetoothManager: NSObject {
         case responseCharacteristicUUID: return "responseCharacteristic"
         default: return "unknown"
         }
+    }
+    
+    private func processRequest(requestBytes: [UInt8]) {
+        let request = NSString(bytes: requestBytes, length: requestBytes.count, encoding: NSUTF8StringEncoding)
+        let response = "\(request!) [\(timestamp())]"
+        // let response: String = request! as String
+        var responseBytes = [UInt8]()
+        for codeUnit in response.utf8 {
+            responseBytes.append(codeUnit)
+        }
+        pendingResponseChunks = Chunker.makeChunks(responseBytes, chunkSize: chunkSize)
+        nChunks = pendingResponseChunks.count
+        nChunksSent = 0
+        log("pending response \(responseBytes.count) bytes (\(nChunks) chunks of \(chunkSize) bytes)")
     }
     
 }
@@ -119,15 +141,27 @@ extension BluetoothManager: CBPeripheralManagerDelegate {
             return
         }
         let request = requests[0] as! CBATTRequest
-        let command = NSString(data: request.value, encoding: NSUTF8StringEncoding)!
-        log("command received: " + (command as String))
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = NSDateFormatterStyle.NoStyle
-        dateFormatter.timeStyle = NSDateFormatterStyle.MediumStyle
-        let response = "\(command) (\(dateFormatter.stringFromDate(NSDate())))"
-        log("pending response \(count(response)): " + response)
-        pendingResponses.append(response)
-        peripheralManager.respondToRequest(request, withResult: CBATTError.Success)
+        
+        log("request received (\(request.value.length) bytes)")
+        
+        var chunkBytes = [UInt8](count: request.value.length, repeatedValue: 0)
+        request.value.getBytes(&chunkBytes, length: request.value.length)
+        let retval = dechunker.addChunk(chunkBytes)
+        if retval.isSuccess {
+            if let finalResult = retval.finalResult {
+                log("dechunker done")
+                log("received \(finalResult.count) bytes from dechunker")
+                processRequest(finalResult)
+            } else {
+                // chunk was ok, but more to come
+                log("dechunker ok, but not done yet")
+            }
+            peripheralManager.respondToRequest(request, withResult: CBATTError.Success)
+        } else {
+            // chunk was faulty
+            log("dechunker failed")
+            peripheralManager.respondToRequest(request, withResult: CBATTError.UnlikelyError)
+        }
     }
     
     func peripheralManager(peripheral: CBPeripheralManager!, didReceiveReadRequest request: CBATTRequest!) {
@@ -136,12 +170,25 @@ extension BluetoothManager: CBPeripheralManagerDelegate {
         let characteristicUUID = request.characteristic.UUID
         let characteristicName = nameFromUUID(characteristicUUID)
         log("peripheralManager didReceiveReadRequest \(serviceName) \(characteristicName) \(serviceUUID) \(characteristicUUID)")
-        if pendingResponses.count > 0 {
-            let response = pendingResponses.removeAtIndex(0)
-            request.value = response.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+        if !pendingResponseChunks.isEmpty {
+            if nChunksSent == 0 {
+                startTime = NSDate()
+            }
+            let chunk = pendingResponseChunks[nChunksSent]
+            let chunkData = NSData(bytes: chunk, length: chunk.count)
+            nChunksSent++
+            log("sending chunk \(nChunksSent)/\(nChunks) (\(chunkData.length) bytes)")
+            request.value = chunkData
             peripheralManager.respondToRequest(request, withResult: CBATTError.Success)
+            if nChunksSent == nChunks {
+                let timeInterval = startTime.timeIntervalSinceNow
+                log("all chunks sent in \(-timeInterval) secs")
+                pendingResponseChunks.removeAll(keepCapacity: false)
+                nChunks = 0
+                nChunksSent = 0
+            }
         } else {
-            log("no pending responses")
+            log("no pending response")
             peripheralManager.respondToRequest(request, withResult: CBATTError.RequestNotSupported)
         }
     }

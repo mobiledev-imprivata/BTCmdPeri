@@ -8,9 +8,12 @@
 
 import Foundation
 
-func log(message: String) {
+func timestamp() -> String {
     let dateFormatter = NSDateFormatter()
     dateFormatter.dateFormat = "YYYY-MM-dd HH:mm:ss.SSS"
-    let dateString = dateFormatter.stringFromDate(NSDate())
-    println("[\(dateString)] \(message)")
+    return dateFormatter.stringFromDate(NSDate())
+}
+
+func log(message: String) {
+    println("[\(timestamp())] \(message)")
 }
