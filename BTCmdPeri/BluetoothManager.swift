@@ -15,8 +15,8 @@ class BluetoothManager: NSObject {
     let commandCharacteristicUUID = CBUUID(string: "43CDD5AB-3EF6-496A-A4CC-9933F5ADAF68")
     let responseCharacteristicUUID = CBUUID(string: "F1A9A759-C922-4219-B62C-1A14F62DE0A4")
     
-    private let peripheralManager: CBPeripheralManager!
-    private var service: CBMutableService!
+    private var peripheralManager: CBPeripheralManager!
+    // private var service: CBMutableService!
     private var isPoweredOn = false
     
     private var pendingResponses = [String]()
@@ -26,7 +26,7 @@ class BluetoothManager: NSObject {
     // http://stackoverflow.com/questions/24441254/how-to-pass-self-to-initializer-during-initialization-of-an-object-in-swift
     override init() {
         super.init()
-        peripheralManager = CBPeripheralManager(delegate:self, queue:nil)
+        peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
     }
     
     private func startService() {
@@ -118,14 +118,14 @@ extension BluetoothManager: CBPeripheralManagerDelegate {
         if requests.count == 0 {
             return
         }
-        let request = requests[0] as CBATTRequest
+        let request = requests[0] as! CBATTRequest
         let command = NSString(data: request.value, encoding: NSUTF8StringEncoding)!
-        log("command received: " + command)
+        log("command received: " + (command as String))
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.NoStyle
         dateFormatter.timeStyle = NSDateFormatterStyle.MediumStyle
         let response = "\(command) (\(dateFormatter.stringFromDate(NSDate())))"
-        log("pending response \(countElements(response)): " + response)
+        log("pending response \(count(response)): " + response)
         pendingResponses.append(response)
         peripheralManager.respondToRequest(request, withResult: CBATTError.Success)
     }
