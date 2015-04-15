@@ -11,9 +11,9 @@ import CoreBluetooth
 
 class BluetoothManager: NSObject {
     
-    let provisioningServiceUUID = CBUUID(string: "193DB24F-E42E-49D2-9A70-6A5616863A9D")
-    let commandCharacteristicUUID = CBUUID(string: "43CDD5AB-3EF6-496A-A4CC-9933F5ADAF68")
-    let responseCharacteristicUUID = CBUUID(string: "F1A9A759-C922-4219-B62C-1A14F62DE0A4")
+    private let serviceUUID                = CBUUID(string: "193DB24F-E42E-49D2-9A70-6A5616863A9D")
+    private let requestCharacteristicUUID  = CBUUID(string: "43CDD5AB-3EF6-496A-A4CC-9933F5ADAF68")
+    private let responseCharacteristicUUID = CBUUID(string: "F1A9A759-C922-4219-B62C-1A14F62DE0A4")
     
     private var peripheralManager: CBPeripheralManager!
     // private var service: CBMutableService!
@@ -21,7 +21,7 @@ class BluetoothManager: NSObject {
     
     private let dechunker = Dechunker()
     
-    private let chunkSize = 15
+    private let chunkSize = 50
     private var pendingResponseChunks = Array< Array<UInt8> >()
     private var nChunks = 0
     private var nChunksSent = 0
@@ -41,9 +41,9 @@ class BluetoothManager: NSObject {
         log("startService")
         peripheralManager.stopAdvertising()
         peripheralManager.removeAllServices()
-        let service = CBMutableService(type: provisioningServiceUUID, primary: true)
-        let commandCharacteristic = CBMutableCharacteristic(
-            type: commandCharacteristicUUID,
+        let service = CBMutableService(type: serviceUUID, primary: true)
+        let requestCharacteristic = CBMutableCharacteristic(
+            type: requestCharacteristicUUID,
             properties: CBCharacteristicProperties.Write,
             value: nil,
             permissions: CBAttributePermissions.Writeable)
@@ -52,19 +52,19 @@ class BluetoothManager: NSObject {
             properties: CBCharacteristicProperties.Read,
             value: nil,
             permissions: CBAttributePermissions.Readable)
-        service.characteristics = [commandCharacteristic, responseCharacteristic]
+        service.characteristics = [requestCharacteristic, responseCharacteristic]
         peripheralManager.addService(service)
     }
     
     private func startAdvertising() {
         log("startAdvertising")
-        peripheralManager.startAdvertising([CBAdvertisementDataServiceUUIDsKey: [provisioningServiceUUID]])
+        peripheralManager.startAdvertising([CBAdvertisementDataServiceUUIDsKey: [serviceUUID]])
     }
     
     private func nameFromUUID(uuid: CBUUID) -> String {
         switch uuid {
-        case provisioningServiceUUID: return "provisioningService"
-        case commandCharacteristicUUID: return "commandCharacteristic"
+        case serviceUUID: return "service"
+        case requestCharacteristicUUID: return "requestCharacteristic"
         case responseCharacteristicUUID: return "responseCharacteristic"
         default: return "unknown"
         }
