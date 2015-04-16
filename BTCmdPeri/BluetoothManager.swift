@@ -16,12 +16,12 @@ class BluetoothManager: NSObject {
     private let responseCharacteristicUUID = CBUUID(string: "F1A9A759-C922-4219-B62C-1A14F62DE0A4")
     
     private var peripheralManager: CBPeripheralManager!
-    // private var service: CBMutableService!
+    private var responseCharacteristic: CBMutableCharacteristic!
     private var isPoweredOn = false
     
     private let dechunker = Dechunker()
     
-    private let chunkSize = 50
+    private let chunkSize = 18
     private var pendingResponseChunks = Array< Array<UInt8> >()
     private var nChunks = 0
     private var nChunksSent = 0
@@ -37,19 +37,19 @@ class BluetoothManager: NSObject {
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
     }
     
-    private func startService() {
-        log("startService")
+    private func addService() {
+        log("addService")
         peripheralManager.stopAdvertising()
         peripheralManager.removeAllServices()
         let service = CBMutableService(type: serviceUUID, primary: true)
         let requestCharacteristic = CBMutableCharacteristic(
             type: requestCharacteristicUUID,
-            properties: CBCharacteristicProperties.Write,
+            properties: CBCharacteristicProperties.WriteWithoutResponse,
             value: nil,
             permissions: CBAttributePermissions.Writeable)
-        let responseCharacteristic = CBMutableCharacteristic(
+        responseCharacteristic = CBMutableCharacteristic(
             type: responseCharacteristicUUID,
-            properties: CBCharacteristicProperties.Read,
+            properties: CBCharacteristicProperties.Notify,
             value: nil,
             permissions: CBAttributePermissions.Readable)
         service.characteristics = [requestCharacteristic, responseCharacteristic]
@@ -82,6 +82,35 @@ class BluetoothManager: NSObject {
         nChunks = pendingResponseChunks.count
         nChunksSent = 0
         log("pending response \(responseBytes.count) bytes (\(nChunks) chunks of \(chunkSize) bytes)")
+        dispatch_async(dispatch_get_main_queue()) {
+            self.startTime = NSDate()
+            self.sendNextResponseChunk()
+        }
+    }
+    
+    private func sendNextResponseChunk() {
+        if nChunks == 0 {
+            return
+        }
+        let chunk = pendingResponseChunks[nChunksSent]
+        log("sending chunk \(nChunksSent + 1)/\(nChunks) (\(pendingResponseChunks[nChunksSent].count) bytes)")
+        let chunkData = NSData(bytes: chunk, length: chunk.count)
+        let isSuccess = peripheralManager.updateValue(chunkData, forCharacteristic: responseCharacteristic, onSubscribedCentrals: nil)
+        log("isSuccess \(isSuccess)")
+        if isSuccess {
+            nChunksSent++
+            if nChunksSent == nChunks {
+                let timeInterval = startTime.timeIntervalSinceNow
+                log("all chunks sent in \(-timeInterval) secs")
+                pendingResponseChunks.removeAll(keepCapacity: false)
+                nChunks = 0
+                nChunksSent = 0
+            } else {
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.sendNextResponseChunk()
+                }
+            }
+        }
     }
     
 }
@@ -109,7 +138,7 @@ extension BluetoothManager: CBPeripheralManagerDelegate {
         log("peripheralManagerDidUpdateState \(caseString)")
         isPoweredOn = (peripheralManager.state == .PoweredOn)
         if isPoweredOn {
-            startService()
+            addService()
         }
     }
     
@@ -135,6 +164,10 @@ extension BluetoothManager: CBPeripheralManagerDelegate {
         log(message)
     }
     
+    func peripheralManager(peripheral: CBPeripheralManager!, central: CBCentral!, didSubscribeToCharacteristic characteristic: CBCharacteristic!) {
+        log("peripheralManager didSubscribeToCharacteristic \(nameFromUUID(characteristic.UUID))")
+    }
+
     func peripheralManager(peripheral: CBPeripheralManager!, didReceiveWriteRequests requests: [AnyObject]!) {
         log("peripheralManager didReceiveWriteRequests \(requests.count)")
         if requests.count == 0 {
@@ -156,40 +189,17 @@ extension BluetoothManager: CBPeripheralManagerDelegate {
                 // chunk was ok, but more to come
                 log("dechunker ok, but not done yet")
             }
-            peripheralManager.respondToRequest(request, withResult: CBATTError.Success)
         } else {
             // chunk was faulty
             log("dechunker failed")
-            peripheralManager.respondToRequest(request, withResult: CBATTError.UnlikelyError)
         }
     }
     
-    func peripheralManager(peripheral: CBPeripheralManager!, didReceiveReadRequest request: CBATTRequest!) {
-        let serviceUUID = request.characteristic.service.UUID
-        let serviceName = nameFromUUID(serviceUUID)
-        let characteristicUUID = request.characteristic.UUID
-        let characteristicName = nameFromUUID(characteristicUUID)
-        log("peripheralManager didReceiveReadRequest \(serviceName) \(characteristicName) \(serviceUUID) \(characteristicUUID)")
-        if !pendingResponseChunks.isEmpty {
-            if nChunksSent == 0 {
-                startTime = NSDate()
-            }
-            let chunk = pendingResponseChunks[nChunksSent]
-            let chunkData = NSData(bytes: chunk, length: chunk.count)
-            nChunksSent++
-            log("sending chunk \(nChunksSent)/\(nChunks) (\(chunkData.length) bytes)")
-            request.value = chunkData
-            peripheralManager.respondToRequest(request, withResult: CBATTError.Success)
-            if nChunksSent == nChunks {
-                let timeInterval = startTime.timeIntervalSinceNow
-                log("all chunks sent in \(-timeInterval) secs")
-                pendingResponseChunks.removeAll(keepCapacity: false)
-                nChunks = 0
-                nChunksSent = 0
-            }
-        } else {
-            log("no pending response")
-            peripheralManager.respondToRequest(request, withResult: CBATTError.RequestNotSupported)
+    func peripheralManagerIsReadyToUpdateSubscribers(peripheral: CBPeripheralManager!) {
+        log("peripheralManagerIsReadyToUpdateSubscribers")
+        dispatch_async(dispatch_get_main_queue()) {
+            // send the next chunk
+            self.sendNextResponseChunk()
         }
     }
     
