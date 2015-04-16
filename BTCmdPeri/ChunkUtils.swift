@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Imprivata. All rights reserved.
 //
 
+import Foundation
+
 enum ChunkFlag: UInt8, Printable {
     case First  = 1
     case Middle = 0
@@ -62,9 +64,13 @@ class Chunker {
 
 class Dechunker {
     private var buffer: [UInt8]
+    private var nChunksAdded: Int
+    
+    private var startTime = NSDate()
     
     init() {
         buffer = [UInt8]()
+        nChunksAdded = 0
     }
     
     func addChunk(var bytes: [UInt8]) -> (isSuccess: Bool, finalResult: [UInt8]?) {
@@ -80,15 +86,20 @@ class Dechunker {
             let data = Array<UInt8>(bytes[2..<bytes.count])
             switch flag {
             case .First, .Only:
+                startTime = NSDate()
                 buffer = data
+                nChunksAdded = 1
                 log("dechunker created buffer with \(data.count) bytes (\(flag.description))")
             case .Middle, .Last:
+                let oldCount = buffer.count
                 buffer += data
-                log("dechunker added \(data.count) bytes (\(flag.description))")
+                nChunksAdded++
+                log("dechunker enlarged buffer to \(data.count)+\(oldCount)=\(buffer.count) bytes (\(nChunksAdded) chunks) (\(flag.description))")
             }
             switch flag {
             case .Last, .Only:
-                log("dechunker complete")
+                let timeInterval = startTime.timeIntervalSinceNow
+                log("dechunker complete, \(nChunksAdded) chunk(s), \(buffer.count) bytes, \(-timeInterval) secs")
                 return (true, buffer)
             case .First, .Middle:
                 return (true, nil)
