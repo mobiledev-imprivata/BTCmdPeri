@@ -21,7 +21,7 @@ class BluetoothManager: NSObject {
     
     private let dechunker = Dechunker()
     
-    private let chunkSize = 18
+    private let chunkSize = 19
     private var pendingResponseChunks = Array< Array<UInt8> >()
     private var nChunks = 0
     private var nChunksSent = 0
