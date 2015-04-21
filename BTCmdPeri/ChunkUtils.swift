@@ -72,6 +72,7 @@ class Chunker {
 class Dechunker {
     private var buffer: [UInt8]
     private var nChunksAdded: Int
+    private var startTime = NSDate()
     
     init() {
         buffer = [UInt8]()
@@ -109,6 +110,7 @@ class Dechunker {
         
         switch flag {
         case .First, .Only:
+            startTime = NSDate()
             buffer = data
             nChunksAdded = 1
             log("dechunker created buffer with \(data.count) bytes (\(flag.description))")
@@ -121,7 +123,8 @@ class Dechunker {
         
         switch flag {
         case .Last, .Only:
-            log("dechunker complete, \(nChunksAdded) chunk(s), \(buffer.count) bytes")
+            let timeInterval = startTime.timeIntervalSinceNow
+            log("dechunker complete, \(nChunksAdded) chunk(s), \(buffer.count) bytes, \(-timeInterval) secs")
             return (true, buffer)
         case .First, .Middle:
             return (true, nil)
