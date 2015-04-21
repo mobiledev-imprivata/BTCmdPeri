@@ -27,7 +27,6 @@ class BluetoothManager: NSObject {
     private var nChunksSent = 0
     
     private var startTime = NSDate()
-
     
     // See:
     // http://stackoverflow.com/questions/24218581/need-self-to-set-all-constants-of-a-swift-class-in-init
@@ -71,9 +70,8 @@ class BluetoothManager: NSObject {
     }
     
     private func processRequest(requestBytes: [UInt8]) {
-        let request = NSString(bytes: requestBytes, length: requestBytes.count, encoding: NSUTF8StringEncoding)
-        let response = "\(request!) [\(timestamp())]"
-        // let response: String = request! as String
+        let request = String(bytes: requestBytes, encoding: NSUTF8StringEncoding)!
+        let response = "\(request) [\(timestamp())]"
         var responseBytes = [UInt8]()
         for codeUnit in response.utf8 {
             responseBytes.append(codeUnit)
@@ -198,7 +196,6 @@ extension BluetoothManager: CBPeripheralManagerDelegate {
     func peripheralManagerIsReadyToUpdateSubscribers(peripheral: CBPeripheralManager!) {
         log("peripheralManagerIsReadyToUpdateSubscribers")
         dispatch_async(dispatch_get_main_queue()) {
-            // send the next chunk
             self.sendNextResponseChunk()
         }
     }
